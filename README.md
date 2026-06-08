@@ -1,8 +1,14 @@
+<p align="center">
+  <img src="./log.svg" alt="TextLoom" width="320">
+</p>
+
 # TextLoom
-<img width="1919" height="910" alt="Screenshot 2026-06-08 225350" src="https://github.com/user-attachments/assets/cebca483-f10e-4285-867d-8c576fad1ece" />
 
 A Chrome extension that captures text selections from any webpage into your personal library. No copy-paste, no clipboard, no accounts.
 
+<p align="center">
+  <img src="./screenshot.png" alt="TextLoom screenshot" width="700">
+</p>
 
 ## Core Loop
 
