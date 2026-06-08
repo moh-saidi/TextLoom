@@ -1,0 +1,60 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "name": "TextLoom",
+  "version": "2.1.0",
+  "description": "Capture text from any website into your personal archive. No copy-paste needed.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "sidePanel"
+  ],
+  "host_permissions": [],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "web_accessible_resources": [{
+    "resources": [
+      "assets/icon16-active.png",
+      "assets/icon48-active.png",
+      "assets/icon128-active.png",
+      "assets/icon16.png",
+      "assets/icon48.png",
+      "assets/icon128.png"
+    ],
+    "matches": [ "<all_urls>" ]
+  }],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+  "side_panel": {
+    "default_path": "src/sidebar/sidebar.html"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["src/content.js"]
+  }],
+  "action": {
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "options_page": "src/options/options.html",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "commands": {
+    "toggle-capture": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Q"
+      },
+      "description": "Toggle text selection capturing"
+    }
+  }
+}

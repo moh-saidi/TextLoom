@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TextLoom</title>
+    <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+    <div class="archive-grain"></div>
+    <div class="app">
+        <header class="header">
+            <div class="header-left">
+                <h1>TextLoom</h1>
+                <span class="header-badge">v2.1</span>
+                <span id="captureStatus" class="status-gem" title="Capturing OFF"></span>
+            </div>
+            <div class="header-right">
+                <button id="statsToggle" class="icon-btn" title="Statistics">&#128202;</button>
+                <button id="helpBtn" class="icon-btn" title="Keyboard Shortcuts">?</button>
+                <button id="darkModeBtn" class="icon-btn" title="Toggle Theme">&#9788;</button>
+                <button id="optionsLink" class="icon-btn" title="Settings">&#9881;</button>
+            </div>
+        </header>
+
+        <div id="statsBar" class="stats-bar hidden">
+            <span class="stat-item"><b id="statTotal">0</b> selections</span>
+            <span class="stat-item"><b id="statStarred">0</b> starred</span>
+            <span class="stat-item"><b id="statFolders">0</b> collections</span>
+            <span class="stat-item"><b id="statTags">0</b> tags</span>
+            <span class="stat-item"><b id="statDomains">0</b> sources</span>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search selections..." class="search-input">
+            <select id="sortSelect" class="sort-select">
+                <option value="starred">Starred first</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="alpha">A-Z</option>
+                <option value="alpha-desc">Z-A</option>
+                <option value="domain">Domain</option>
+                <option value="length">Length</option>
+            </select>
+            <button id="clearSearchBtn" class="search-clear hidden">&times;</button>
+        </div>
+
+        <div class="folders-section">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <span class="section-icon">&#9776;</span>
+                    <span class="section-title">Collections</span>
+                    <button id="toggleFoldersBtn" class="toggle-btn" title="Expand/Collapse">&#9660;</button>
+                </div>
+                <button id="createFolderBtn" class="add-btn" title="New Collection">+</button>
+            </div>
+            <div id="folderListContainer" class="section-body">
+                <div class="section-toolbar">
+                    <input type="text" id="folderSearch" placeholder="Filter collections..." class="search-input search-input-sm">
+                </div>
+                <ul id="folderList" class="folder-list"></ul>
+            </div>
+        </div>
+
+        <div class="tags-section">
+            <div class="section-header">
+                <div class="section-header-left">
+                    <span class="section-icon">&#127991;</span>
+                    <span class="section-title">Tags</span>
+                </div>
+                <button id="clearTagFilter" class="add-btn hidden" title="Clear tag filter">&times;</button>
+            </div>
+            <div id="tagList" class="tags-scroll"></div>
+        </div>
+
+        <div id="selectionList" class="selection-list"></div>
+
+        <footer class="toolbar">
+            <div class="toolbar-left">
+                <span id="selectionCount" class="toolbar-count"></span>
+            </div>
+            <div class="toolbar-right">
+                <button id="tagSelectedBtn" class="bar-btn" title="Tag selected selections">&#127991;</button>
+                <select id="exportFormat" class="format-select">
+                    <option value="txt">Plain Text</option>
+                    <option value="json">JSON</option>
+                    <option value="csv">CSV</option>
+                    <option value="md">Markdown</option>
+                </select>
+                <button id="exportBtn" class="bar-btn bar-btn-primary">Export</button>
+                <button id="clearBtn" class="bar-btn bar-btn-danger">Delete</button>
+            </div>
+        </footer>
+    </div>
+
+    <div id="helpModal" class="modal hidden">
+        <div class="modal-content modal-help">
+            <h3>Keyboard Shortcuts</h3>
+            <div class="shortcut"><kbd>j</kbd> <kbd>&darr;</kbd> Next selection</div>
+            <div class="shortcut"><kbd>k</kbd> <kbd>&uarr;</kbd> Previous selection</div>
+            <div class="shortcut"><kbd>s</kbd> Star / unstar</div>
+            <div class="shortcut"><kbd>/</kbd> Focus search</div>
+            <div class="shortcut"><kbd>e</kbd> Export selected</div>
+            <div class="shortcut"><kbd>d</kbd> <kbd>Delete</kbd> Delete selected</div>
+            <div class="shortcut"><kbd>Space</kbd> Toggle select</div>
+            <div class="shortcut"><kbd>Esc</kbd> Clear search / close modals</div>
+            <div class="shortcut"><kbd>Ctrl+Shift+Q</kbd> Toggle capture</div>
+            <button id="closeHelpBtn" class="btn btn-primary" style="margin-top:14px;">Got it</button>
+        </div>
+    </div>
+
+    <div id="onboardingModal" class="modal hidden">
+        <div class="modal-content modal-onboarding">
+            <h3>Welcome to TextLoom</h3>
+            <div class="onboarding-steps">
+                <div class="onboarding-step"><span class="step-key">1</span> Press <kbd>Ctrl+Shift+Q</kbd> to arm capture</div>
+                <div class="onboarding-step"><span class="step-key">2</span> Select text on any page &mdash; it saves automatically</div>
+                <div class="onboarding-step"><span class="step-key">3</span> Open this sidebar to organize and export</div>
+            </div>
+            <p class="onboarding-hint">No copy-paste, no clipboard, no accounts. Just read and capture.</p>
+            <button id="dismissOnboarding" class="btn btn-primary">Start Capturing</button>
+        </div>
+    </div>
+
+    <div id="tagInputOverlay" class="modal hidden">
+        <div class="modal-content" style="width:240px;">
+            <h3>Add Tag</h3>
+            <div class="form-group">
+                <label for="tagInput">Tag name</label>
+                <input type="text" id="tagInput" placeholder="e.g. research, idea, todo...">
+            </div>
+            <div class="button-group">
+                <button id="tagInputCancel" class="btn">Cancel</button>
+                <button id="tagInputSave" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../utils.js"></script>
+    <script src="../storage.js"></script>
+    <script src="sidebar.js"></script>
+</body>
+</html>
